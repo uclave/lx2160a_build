@@ -1,0 +1,59 @@
+From 63acd83d59de8990e2db51a6afec65af04aa15da Mon Sep 17 00:00:00 2001
+From: Josua Mayer <josua@solid-run.com>
+Date: Mon, 23 Feb 2026 18:51:17 +0100
+Subject: [PATCH] add explicit setting for SDBGEN (disabled by default)
+
+This is a hint for developers on how they can enable debug by
+themselves, offering a suitable location.
+
+Signed-off-by: Josua Mayer <josua@solid-run.com>
+---
+ lx2160acex6_rev2/include/common.rcwi | 3 +++
+ lx2160acex7/include/common.rcwi      | 3 +++
+ lx2162asom_rev2/include/common.rcwi  | 2 ++
+ 3 files changed, 8 insertions(+)
+
+diff --git a/lx2160acex6_rev2/include/common.rcwi b/lx2160acex6_rev2/include/common.rcwi
+index 8cc5ec7..3b2454e 100644
+--- a/lx2160acex6_rev2/include/common.rcwi
++++ b/lx2160acex6_rev2/include/common.rcwi
+@@ -81,6 +81,9 @@ SDHC2_BASE_PMUX=0
+ /* SDHC2_DAT[7:4] are SDHC */
+ SDHC2_DAT74_PMUX=0
+ 
++/* Disable debugging via JTAG if efuses are blown. */
++SDBGEN=0
++
+ /*
+  * Original SolidRun Settings in LSDK-21.08
+  *
+diff --git a/lx2160acex7/include/common.rcwi b/lx2160acex7/include/common.rcwi
+index c76b174..8395cfc 100644
+--- a/lx2160acex7/include/common.rcwi
++++ b/lx2160acex7/include/common.rcwi
+@@ -84,6 +84,9 @@ SDHC2_BASE_PMUX=0
+ /* SDHC2_DAT[7:4] are SDHC */
+ SDHC2_DAT74_PMUX=0
+ 
++/* Disable debugging via JTAG if efuses are blown. */
++SDBGEN=0
++
+ /*
+  * Original SolidRun Settings in LSDK-21.08
+  *
+diff --git a/lx2162asom_rev2/include/common.rcwi b/lx2162asom_rev2/include/common.rcwi
+index 35a6db6..99d2931 100644
+--- a/lx2162asom_rev2/include/common.rcwi
++++ b/lx2162asom_rev2/include/common.rcwi
+@@ -120,6 +120,8 @@ IRQ11_08_PMUX=1
+ /* Configure USB1 Pins for USB */
+ USB_EXT_PMUX=0
+ 
++/* Disable debugging via JTAG if efuses are blown. */
++SDBGEN=0
+ 
+ /*
+  * Original SolidRun Settings in LSDK-21.08
+-- 
+2.51.0
+
