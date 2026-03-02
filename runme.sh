@@ -230,10 +230,11 @@ cd $ROOTDIR
 QORIQ_COMPONENTS="u-boot atf ddr-phy-binary rcw restool mc-utils linux dpdk cst mdio-proxy-module optee_os qoriq-mc-binary"
 for i in $QORIQ_COMPONENTS; do
 	if [[ ! -d $ROOTDIR/build/$i ]]; then
-		echo "Cloning https://github.com/nxp-qoriq/$i release $RELEASE"
+
 		cd $ROOTDIR/build
 		CHECKOUT=${RELEASE/ls/lf}
 		COMMIT=
+		URL=https://github.com/nxp-qoriq/$i
 
 		case "$i" in
 		mc-utils|qoriq-mc-binary)
@@ -242,15 +243,18 @@ for i in $QORIQ_COMPONENTS; do
 		esac
 
 		if [ -z "${COMMIT}" ]; then
-			git clone $SHALLOW_FLAG https://github.com/nxp-qoriq/$i -b $CHECKOUT
+			echo "Cloning $URL head $CHECKOUT"
+			git clone $SHALLOW_FLAG $URL -b $CHECKOUT
 			cd $i
 		else
-			git clone https://github.com/nxp-qoriq/$i
+			echo "Cloning $URL commit $COMMIT"
+			git clone $URL
 			cd $i
 			git reset --hard $COMMIT
 		fi
 
 		if [[ -d $ROOTDIR/patches/$i/ ]]; then
+			echo "Applying patches/$i/*.patch"
 			git am $ROOTDIR/patches/$i/*.patch
 		fi
 	fi
