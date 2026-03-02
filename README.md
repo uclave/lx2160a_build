@@ -2,6 +2,12 @@
 
 This project is organised in branches for different versions of NXP BSP:
 
+- [develop-upstream](https://github.com/SolidRun/lx2160a_build/tree/develop-upstream):
+
+  Unmaintained development preview of mainline Linux.
+
+  Not recommended for production use.
+
 - [develop-ls-6.6.52-2.2.0](https://github.com/SolidRun/lx2160a_build/tree/develop-ls-6.6.52-2.2.0):
 
   Based on NXP QorIQ LS-6.6.52-2.2.0 Release.
