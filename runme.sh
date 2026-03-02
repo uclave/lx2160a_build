@@ -40,12 +40,12 @@ set -e
 # - jammy (22.04)
 # - noble (24.04)
 : ${UBUNTU_VERSION:=noble}
-: ${UBUNTU_ROOTFS_SIZE:=350M}
+: ${UBUNTU_ROOTFS_SIZE:=650M}
 # Debian Version
 # - bullseye (11)
 # - bookworm (12)
 : ${DEBIAN_VERSION:=bookworm}
-: ${DEBIAN_ROOTFS_SIZE:=350M}
+: ${DEBIAN_ROOTFS_SIZE:=650M}
 : ${APTPROXY:=}
 
 if [ "x$SHALLOW" == "xtrue" ]; then
