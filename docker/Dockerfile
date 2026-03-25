@@ -1,7 +1,7 @@
-FROM python:slim-bookworm
+FROM python:slim-trixie
 
 # enable backports
-RUN printf "deb http://deb.debian.org/debian bookworm-backports main\n" >> /etc/apt/sources.list
+RUN printf "deb http://deb.debian.org/debian trixie-backports main\n" >> /etc/apt/sources.list
 
 # retry at least 3 times to succeed on sketchy connections
 RUN printf 'Acquire::http { Proxy "%s"; };\n' $APTPROXY | tee -a /etc/apt/apt.conf.d/proxy
@@ -23,7 +23,7 @@ RUN set -e; \
 RUN set -e; \
 	apt-get update; \
 	apt-get --no-install-recommends -y install \
-		acpica-tools bc bison build-essential ca-certificates cmake cpio debian-archive-keyring debootstrap device-tree-compiler dosfstools e2tools fakeroot fdisk file flex gdb-multiarch git kmod libncurses-dev libssl-dev libyaml-dev lzop make meson mtools ninja-build p7zip p7zip-full pandoc parted pkg-config qemu-system-arm rsync sudo tar u-boot-tools unzip wget xz-utils yamllint; \
+		acpica-tools bc bison build-essential ca-certificates cmake cpio debian-archive-keyring debootstrap device-tree-compiler dosfstools e2fsprogs e2tools fakeroot fdisk file flex gdb-multiarch git kmod libncurses-dev libssl-dev libyaml-dev lzop make meson mtools ninja-build p7zip p7zip-full pandoc parted pkg-config qemu-system-arm rsync sudo tar u-boot-tools unzip wget xz-utils yamllint; \
 	dpkg-architecture --is arm64 || apt-get --no-install-recommends -y install crossbuild-essential-arm64; \
 	:
 
