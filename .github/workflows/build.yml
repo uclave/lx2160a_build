@@ -105,6 +105,8 @@ jobs:
             done; done; done; done
 
             # lx2160-cex7 twins configurations
+            env SHALLOW=true BOOTSOURCE=auto BUS_SPEED=700 CPU_REVISION=2 CPU_SPEED=2000 DDR_SPEED=2400 TARGET=LX2160A_CEX7_HALF-TWINS_8S_9_2 ./runme.sh
+            env SHALLOW=true BOOTSOURCE=auto BUS_SPEED=700 CPU_REVISION=2 CPU_SPEED=2000 DDR_SPEED=2600 TARGET=LX2160A_CEX7_HALF-TWINS_8S_9_2 ./runme.sh
             env SHALLOW=true BOOTSOURCE=auto BUS_SPEED=700 CPU_REVISION=2 CPU_SPEED=2000 DDR_SPEED=2900 TARGET=LX2160A_CEX7_HALF-TWINS_8S_9_2 ./runme.sh
 
             # lx2162-som clearfog configurations
