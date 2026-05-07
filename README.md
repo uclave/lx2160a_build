@@ -302,5 +302,6 @@ If using a GPU then install the linux-firmware package that contains GPU firmwar
 
 ### SFP Ports with Retimer can't link up
 
-The 2x 25Gbps ports on LX2162A Clearfog, and the QSFP on Clearfog-CX can't detect link.
-RX direction is not currently functional, no known workaround.
+The 2x 25Gbps ports on LX2162A Clearfog, and the QSFP on Clearfog-CX can't detect link in SD1 Protocol 18 configuration (images named `*_18_*_0*`).
+
+As a workaround, use SD1 protocol 3 configuration (images named `*_3_*_0*`), which only supports 10Gbps networking, and not 25Gbps.
