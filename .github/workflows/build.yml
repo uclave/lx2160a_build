@@ -90,16 +90,19 @@ jobs:
         shell: bash {0}
         run: |
             # lx2160-cex7 honeycomb configurations
-            for serdes in 4_5_2 8_5_2 20_5_2; do for ddr in 2400 2600 2900; do for cpu in 1 2; do
-            env SHALLOW=true BOOTSOURCE=auto BUS_SPEED=700 CPU_REVISION=$cpu CPU_SPEED=2000 DDR_SPEED=$ddr TARGET=LX2160A_CEX7_HONEYCOMB_${serdes} ./runme.sh
-            done; done; done
+            for serdes in 4_5_2 8_5_2 20_5_2; do for ddr in 2400 2600 2900; do for cpu in 1 2; do for bootflash in primary secondary; do
+            env SHALLOW=true BOOTSOURCE=auto BUS_SPEED=700 CPU_REVISION=$cpu CPU_SPEED=2000 DDR_SPEED=$ddr TARGET=LX2160A_CEX7_HONEYCOMB_${serdes} BOOTFLASH=$bootflash ./runme.sh
+            done; done; done; done
 
             # lx2160-cex7 clearfog-cx configurations
-            for serdes in 4_5_2 8_5_2 18_5_2 20_5_2; do for ddr in 2400 2600 2900; do for cpu in 1 2; do
-            env SHALLOW=true BOOTSOURCE=auto BUS_SPEED=700 CPU_REVISION=$cpu CPU_SPEED=2000 DDR_SPEED=$ddr TARGET=LX2160A_CEX7_CLEARFOG-CX_${serdes} ./runme.sh
-            done; done; done
+            for serdes in 4_5_2 8_5_2 18_5_2 20_5_2; do for ddr in 2400 2600 2900; do for cpu in 1 2; do for bootflash in primary secondary; do
+            env SHALLOW=true BOOTSOURCE=auto BUS_SPEED=700 CPU_REVISION=$cpu CPU_SPEED=2000 DDR_SPEED=$ddr TARGET=LX2160A_CEX7_CLEARFOG-CX_${serdes} BOOTFLASH=$bootflash ./runme.sh
+            done; done; done; done
 
             # lx2160-cex7 clearfog-cx configurations without auto-boot
+            for serdes in 18_5_2; do for ddr in 2400 2600 2900; do for cpu in 1 2; do
+            env SHALLOW=true BOOTSOURCE=xspi BUS_SPEED=700 CPU_REVISION=$cpu CPU_SPEED=2000 DDR_SPEED=$ddr TARGET=LX2160A_CEX7_CLEARFOG-CX_${serdes} BOOTFLASH=secondary ./runme.sh
+            done; done; done
             for serdes in 18_5_2; do for ddr in 2400 2600 2900; do for cpu in 1 2; do for boot in sdhc1 sdhc2 xspi; do
             env SHALLOW=true BOOTSOURCE=$boot BUS_SPEED=700 CPU_REVISION=$cpu CPU_SPEED=2000 DDR_SPEED=$ddr TARGET=LX2160A_CEX7_CLEARFOG-CX_${serdes} ./runme.sh
             done; done; done; done
