@@ -583,7 +583,7 @@ test -n "$APTPROXY" && printf 'Acquire::http { Proxy "%s"; }\n' $APTPROXY | tee 
 
 apt-get update
 env DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true LC_ALL=C LANGUAGE=C LANG=C \
-	apt-get install --no-install-recommends -y apt apt-utils bc busybox ethtool fdisk i2c-tools ifupdown iproute2 iptables iputils-ping isc-dhcp-client kmod less libatomic1 lm-sensors locales net-tools ntpdate openssh-server pciutils procps psmisc python3 sudo systemd-sysv tee-supplicant wget $EXTRA_PKGS
+	apt-get install --no-install-recommends -y apt apt-utils bc busybox ethtool fdisk i2c-tools ifupdown iproute2 iptables iputils-ping isc-dhcp-client kmod less libatomic1 lm-sensors locales net-tools ntpsec-ntpdate openssh-server pciutils procps psmisc python3 sudo systemd-sysv tee-supplicant wget zsh vim less util-linux-extra $EXTRA_PKGS
 apt-get clean
 
 # set root password
@@ -661,6 +661,9 @@ if [[ $DISTRO == debian ]]; then
 		bookworm)
 			EXCLUDE=
 		;;
+		trixie)
+			EXCLUDE=
+		;;
 		*)
 			echo "Error: Unsupported Debian Version \"\${DEBIAN_VERSION}\"! To proceed please add support to runme.sh."
 			exit 1
@@ -684,7 +687,7 @@ if [[ $DISTRO == debian ]]; then
 		fakeroot debootstrap --variant=minbase \
 			--arch=arm64 --components=main,contrib,non-free \
 			--foreign \
-			--include=apt-transport-https,busybox,ca-certificates,curl,e2fsprogs,ethtool,fdisk,haveged,i2c-tools,ifupdown,iputils-ping,isc-dhcp-client,iw,initramfs-tools,lm-sensors,localepurge,nano,net-tools,ntpdate,openssh-server,pciutils,psmisc,rfkill,sudo,systemd-sysv,tee-supplicant,tio,usbutils,wget,wpasupplicant,xz-utils \
+			--include=apt-transport-https,busybox,ca-certificates,curl,e2fsprogs,ethtool,fdisk,haveged,i2c-tools,ifupdown,iputils-ping,isc-dhcp-client,iw,initramfs-tools,lm-sensors,localepurge,nano,net-tools,ntpsec-ntpdate,openssh-server,pciutils,psmisc,rfkill,sudo,systemd-sysv,tee-supplicant,tio,usbutils,wget,wpasupplicant,xz-utils,zsh,vim,less,util-linux-extra \
 			${EXCLUDE} \
 			$DEBIAN_VERSION \
 			stage1 \
