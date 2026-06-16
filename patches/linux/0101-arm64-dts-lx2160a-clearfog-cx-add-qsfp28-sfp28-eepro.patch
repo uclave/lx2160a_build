@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Carlos Aguado <caguado@infra.structur.es>
+Date: Sun, 27 Apr 2026 00:00:00 +0000
+Subject: [PATCH] arm64: dts: lx2160a-clearfog-cx: add QSFP28/SFP28 EEPROM
+ node for transceiver identification
+
+The QSFP28 cage I2C bus (i2c2, 2020000.i2c, Linux i2c-1) exposes the
+SFP28 transceiver A0 EEPROM at address 0x50 when a QSFP28-to-SFP28
+adapter such as the FS.com MAM1Q00A-QSA28 is installed.
+
+Register the address as an AT24 24c02-compatible EEPROM so the kernel
+claims the address and exposes the module identity data (vendor, part
+number, serial number, capability flags per SFF-8472) via:
+
+  /sys/bus/i2c/devices/1-0050/eeprom
+
+Note: diagnostic/sensor data (temperature, optical power, bias current)
+lives in the SFF-8472 A2 page at 0x51 and is accessible from userspace
+via i2c tools (i2cdump -y 1 0x51). Full kernel-managed DOM requires
+SFP bus support in the DPAA2 MAC driver, which is not yet implemented.
+
+Signed-off-by: Carlos Aguado <caguado@infra.structur.es>
+---
+ .../dts/freescale/fsl-lx2160a-clearfog-cx.dts | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dts b/arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dts
+index 848b3c54c351..5ea13938a17e 100644
+--- a/arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dts
++++ b/arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dts
+@@ -54,6 +54,15 @@ &pcs_mdio6 {
+ 	status = "okay";
+ };
+
++&i2c2 {
++	/* SFP28 transceiver A0 EEPROM via MAM1Q00A-QSA28 QSFP28-to-SFP28 adapter */
++	qsfp_eeprom: eeprom@50 {
++		compatible = "atmel,24c02";
++		reg = <0x50>;
++		read-only;
++	};
++};
++
+ &i2c_smb {
+ 	/* tx direction */
+ 	retimer0: retimer@22 {
+--
+2.43.0
+

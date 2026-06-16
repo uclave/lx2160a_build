@@ -1,0 +1,78 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Carlos Aguado <caguado@infra.structur.es>
+Date: Sat, 26 Apr 2026 00:00:00 +0000
+Subject: [PATCH] arm64: dts: lx2160a-clearfog-cx: enable PCS MDIO and
+ in-band status for 25G QSFP28 ports
+
+DPMACs 3-6 use SerDes 1 lanes E-H reconfigured as 4x25G by the RCW PBI.
+Two issues prevented a kernel network interface from being created:
+
+1. pcs_mdio3-6 were disabled (base DTS default). dpaa2_pcs_create() calls
+   fwnode_mdio_find_device() on the pcs-handle node; with the MDIO bus
+   disabled the device is not found and -EPROBE_DEFER is returned forever.
+   Enable pcs_mdio3-6, matching pcs_mdio7-10 in clearfog-itx.dtsi.
+
+2. With no fixed-link, sfp, or managed property, phylink defaults to
+   MLO_AN_PHY mode and phylink_fwnode_phy_connect() returns -ENODEV when
+   no phy-handle is found. Add managed = "in-band-status" so phylink uses
+   MLO_AN_INBAND and relies on the Lynx 28G PCS (via Clause 45 MDIO) for
+   link state reporting, which it supports for PHY_INTERFACE_MODE_25GBASER.
+
+Signed-off-by: Carlos Aguado <caguado@infra.structur.es>
+---
+ .../dts/freescale/fsl-lx2160a-clearfog-cx.dts | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dts b/arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dts
+index 050d2b565650..848b3c54c351 100644
+--- a/arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dts
++++ b/arch/arm64/boot/dts/freescale/fsl-lx2160a-clearfog-cx.dts
+@@ -15,25 +15,45 @@ / {
+ };
+
+ &dpmac3 {
++	managed = "in-band-status";
+ 	phys = <&serdes_1 7>, <&retimer0 3>, <&retimer1 3>;
+ 	phy-names = "serdes", "retimer", "retimer";
+ };
+
+ &dpmac4 {
++	managed = "in-band-status";
+ 	phys = <&serdes_1 6>, <&retimer0 2>, <&retimer1 2>;
+ 	phy-names = "serdes", "retimer", "retimer";
+ };
+
+ &dpmac5 {
++	managed = "in-band-status";
+ 	phys = <&serdes_1 5>, <&retimer0 1>, <&retimer1 1>;
+ 	phy-names = "serdes", "retimer", "retimer";
+ };
+
+ &dpmac6 {
++	managed = "in-band-status";
+ 	phys = <&serdes_1 4>, <&retimer0 0>, <&retimer1 0>;
+ 	phy-names = "serdes", "retimer", "retimer";
+ };
+
++&pcs_mdio3 {
++	status = "okay";
++};
++
++&pcs_mdio4 {
++	status = "okay";
++};
++
++&pcs_mdio5 {
++	status = "okay";
++};
++
++&pcs_mdio6 {
++	status = "okay";
++};
++
+ &i2c_smb {
+ 	/* tx direction */
+ 	retimer0: retimer@22 {
+--
+2.43.0
+
